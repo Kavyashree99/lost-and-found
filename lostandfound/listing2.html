@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<title>Lost and found</title>
+
+<link rel="stylesheet" href="lostandfound/css/bootstrap.min.css">
+<link rel="stylesheet" href="lostandfound/css/font-awesome.min.css">
+<script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+<script  src="{{url_for('static',filename='cookie.js')}}"></script>
+<script src="lostandfound/js/jquery.js"></script>
+<link rel="stylesheet" href="lostandfound/css/style.css">
+<link href="https://fonts.googleapis.com/css?family=Lora|Merriweather:300,400" rel="stylesheet">
+<style type="text/css">
+      header {
+    margin: 0;
+    background: #000;
+    height: 65px;
+    padding: 1px;
+  }
+
+    article {
+        margin: 40px 30px;
+    }
+
+    h1 {
+        font-family: 'Open Sans Condensed', sans-serif;
+        letter-spacing: 1px;
+        font-size: 2.3em;
+        line-height: 44px;
+        text-transform: uppercase;
+        color: #fff;
+        font-weight: 900;
+        margin: 0;
+        padding: 10px 0 0 30px;
+        letter-spacing: 2px;
+    }
+
+    h2 { margin: 20px 0 10px 0;
+        font-weight: 900;
+    }
+
+    p {
+        margin: 20px 0 5px 0;
+    }
+
+
+   
+
+    table.vitamins {
+        margin: 20px 0 0 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+        background: #212121;
+        color: #fff;
+    }
+
+    table.vitamins th, table.vitamins td {
+        text-align: center;
+    }
+
+    table.vitamins thead {
+        line-height: 12px;
+        background: #2e63e7;
+        text-transform: uppercase;
+    }
+
+    table.vitamins thead th {
+        color: #fff;
+        padding: 10px;
+        letter-spacing: 1px;
+        vertical-align: bottom;
+    }
+
+    table.vitamins thead th:nth-child(1) {
+        width: 20%;
+        text-align: left;
+        padding-left: 20px;
+    }
+
+    table.vitamins thead th:nth-child(2) {
+        width: 30%;
+    }
+
+    table.vitamins thead th:nth-child(3) {
+        width: 35%;
+    }
+
+    table.vitamins thead th:nth-child(4) {
+        width: 15%;
+    }
+
+    table.vitamins tbody {
+        font-size: 1em;
+        line-height: 15px;
+    }
+
+    table.vitamins tbody tr {
+        border-top: 2px solid rgba(109, 176, 231, 0.8);
+        transition: background 1s, color 0.6s;
+    }
+
+    table.vitamins tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    table.vitamins tbody tr:hover {
+        color: #000;
+        background: rgba(255, 255, 255, 0.7);
+        font-weight: 900;
+    }
+
+    table.vitamins tbody td {
+        padding: 12px;
+    }
+
+    table.vitamins tbody tr:hover td:first-child {
+        background: rgba(0,0,0,0);
+    }
+
+    table.vitamins tbody td:first-child {
+        text-align: left;
+        padding-left: 20px;
+        font-weight: 700;
+        background: rgba(109, 176, 231, 0.35);
+        transition: backgrounf 0.6s;
+    }
+
+    table.vitamins tfoot {
+        font-size: 0.8em;
+    }
+
+    table.vitamins tfoot tr {
+        border-top: 2px solid #2e63e7;
+    }
+
+    table.vitamins tfoot td {
+        color: rgba(255,255,215,0.6);
+        text-align: left;
+        line-height: 15px;
+        padding: 15px 20px;
+    }
+
+
+     a:hover{
+     cursor: pointer; 
+  }
+</style>
+</head>
+<body>
+
+<div class="preloader">
+     <div class="sk-spinner sk-spinner-wordpress">
+          <span class="sk-inner-circle"></span>
+     </div>
+</div>
+
+
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+     <div class="container">
+
+          <div class="navbar-header">
+               <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+               </button>
+               <a href="index.html" class="navbar-brand">Lost and Found</a>
+          </div>
+          <div class="collapse navbar-collapse">
+               <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html" class="fa fa-home">Home</a></li>
+                    <li><a href="about.html" class="fa fa-sign-out">Logout</a></li>
+                    <li><a href="listing1.html">Mylisting</a></li>
+                    <li class="active"><a href="listing2.html">Lostandfoundlisting</a></li>
+                    <li><a href="team.html" class="fa fa-group">team</a></li>
+                    <li><a href="contactus.html" class="fa fa-phone">Contact</a></li>
+               </ul>
+          </div>
+
+  </div>
+</div>
+
+
+
+
+<section id="home" class="main-contact parallax-section">
+     <div class="overlay"></div>
+     <div class="container">
+          <div class="row">
+
+               <div class="col-md-12 col-sm-12">
+                    <h1>Lost and Found Listing.</h1>
+               </div>
+
+          </div>
+     </div>
+</section>
+
+
+
+
+<section id="contact">
+     <div class="container">
+          <div class="row">
+
+               <div class="col-md-offset-1 col-md-10 col-sm-12">
+                    <h2 style="align-items: center;text-transform: uppercase;justify-content: center;display: flex;">Found Items</h2>
+                    
+                    <p style="font-family: sans-serif;text-transform: uppercase;color: blue;">Here u can find all lost and Found items.</p>
+               
+            
+                    <section>
+                          <table class="vitamins">
+
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Describtion</th>
+                                    <th>Date and time of last seen</th>
+                                    <th>Location</th>
+                                    <th>Person who Lost</th>
+                                    <th>His/Her Phone Num.</th>
+                                    <th>Date of Found.</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td>One plus 6 2019 model</td>
+                                    <td>22/03/2018</td>
+                                    <td>SIT,Tumkuru</td>
+                                    <td>Rakshith</td>
+                                    <td>8792247741</td>
+                                    <td>22/03/2019</td>
+                                </tr>
+                            <tr>
+                                    <td>Phone</td>
+                                    <td>One plus 6 2019 model</td>
+                                    <td>22/03/2018</td>
+                                    <td>SIT,Tumkuru</td>
+                                    <td>Rakshith</td>
+                                    <td>8792247741</td>
+                                    <td>22/03/2019</td>
+                                </tr>
+                          <tr>
+                                    <td>Phone</td>
+                                    <td>One plus 6 2019 model</td>
+                                    <td>22/03/2018</td>
+                                    <td>SIT,Tumkuru</td>
+                                    <td>Rakshith</td>
+                                    <td>8792247741</td>
+                                    <td>Not Found</td>
+                                </tr>
+                             
+                            </tbody>
+                        </table>
+                        <h2 style="align-items: center;text-transform: uppercase;justify-content: center;display: flex;">Lost Items</h2>
+                         <table class="vitamins">
+
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Describtion</th>
+                                    <th>Date and time of last seen</th>
+                                    <th>Location</th>
+                                    <th>Person who Lost</th>
+                                    <th>His/Her Phone Num.</th>
+                                    <th>Date of Lost..</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td>One plus 6 2019 model</td>
+                                    <td>22/03/2018</td>
+                                    <td>SIT,Tumkuru</td>
+                                    <td>Rakshith</td>
+                                    <td>8792247741</td>
+                                    <td>22/03/2019</td>
+                                </tr>
+                            <tr>
+                                    <td>Phone</td>
+                                    <td>One plus 6 2019 model</td>
+                                    <td>22/03/2018</td>
+                                    <td>SIT,Tumkuru</td>
+                                    <td>Rakshith</td>
+                                    <td>8792247741</td>
+                                    <td>22/03/2019</td>
+                                </tr>
+                          <tr>
+                                    <td>Phone</td>
+                                    <td>One plus 6 2019 model</td>
+                                    <td>22/03/2018</td>
+                                    <td>SIT,Tumkuru</td>
+                                    <td>Rakshith</td>
+                                    <td>8792247741</td>
+                                    <td>Not Found</td>
+                                </tr>
+                             
+                            </tbody>
+                        </table>
+
+
+                   </section>
+          
+           </div>
+</section>
+<div class="form-popup" id="myForm" style="display: none;">
+  <form  class="form-container">
+    <h1>Login</h1>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button type="submit" class="btn">Login</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+<script type="text/javascript">
+    var config = {
+        apiKey: "AIzaSyBiX1xYfPUnPGy8VXzrAKqD2SUqBUKxVlo",
+        authDomain: "lostandfound-5d806.firebaseapp.com",
+        databaseURL: "https://lostandfound-5d806.firebaseio.com",
+        projectId: "lostandfound-5d806",
+        storageBucket: "lostandfound-5d806.appspot.com",
+        messagingSenderId: "638576658815"
+    };
+    firebase.initializeApp(config);
+    var email=getCookie('email');
+    var password=getCookie('password');
+    firebase.auth().signInWithEmailAndPassword(email,password).catch(function(error) {
+           window.location.href="/homepage"
+    });
+    database=firebase.database();
+    var ref=database.ref('/lost');
+    ref.once('value',function(snapshot) {
+        snapshot.forEach(function(childsnapshot) {
+            var userid=childsnapshot.child('/User').val();
+            database.ref('/users/'+userid).once('value',function(usersnapshot) {
+              document.getElementById('lost').innerHTML+="<tr><td>"+childsnapshot.child('/Name').val()+"</td><td>"+childsnapshot.child('/Description').val()+"</td><td>"+childsnapshot.child('/Date').val()+"</td><td>"+childsnapshot.child('/Location').val()+"</td><td>"+usersnapshot.child('/Name').val()+"</td><td>"+usersnapshot.child('/Ph').val()+"</td></tr>"
+            })
+            
+        })
+    });
+    var ref=database.ref('/found');
+    ref.once('value',function(snapshot) {
+        snapshot.forEach(function(childsnapshot) {
+            var userid=childsnapshot.child('/User').val();
+            database.ref('/users/'+userid).once('value',function(usersnapshot) {
+              document.getElementById('found').innerHTML+="<tr><td>"+childsnapshot.child('/Name').val()+"</td><td>"+childsnapshot.child('/Description').val()+"</td><td>"+childsnapshot.child('/Date').val()+"</td><td>"+childsnapshot.child('/Location').val()+"</td><td>"+usersnapshot.child('/Name').val()+"</td><td>"+usersnapshot.child('/Ph').val()+"</td></tr>"
+            })
+            
+        })
+    })
+    function logout() {
+      firebase.auth().signOut().then(function() {
+        setCookie('email','');
+        setCookie('password','');
+        window.location.href="/homepage";
+      }).catch(function(error) {
+        alert(error.message);
+      });
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer>
+     <div class="container">
+          <div class="row">
+
+               <div class="col-md-5 col-md-offset-1 col-sm-6">
+                    <h3>Contact Detail</h3>
+                     <p>SIT, main road Tumkuru. </p>
+                     <p class="fa fa-phone">+91 8792247741</p></br>
+                     <p class="fa fa-phone">+91 8762171340</p>
+                     <p>lostandfound@gmail.com</p>
+               </div>
+
+               <div class="col-md-4 col-md-offset-1 col-sm-6">
+                    <h3>Talk to us</h3>
+                         <h3>Team Members</h3>
+                          <strong>Kavya Shree</strong>
+                          <p>kavyashree@gmail.com</p>
+                          <strong>Rakshitha N</strong>
+                          <p>rakshithan@gmail.com</p>
+               </div>
+
+               <div class="clearfix col-md-12 col-sm-12">
+                    <hr>
+               </div>
+
+               <div class="col-md-12 col-sm-12">
+                    <ul class="social-icon">
+                         <li><a href="#" class="fa fa-facebook"></a></li>
+                         <li><a href="#" class="fa fa-instagram"></a></li>
+                         <li><a href="#" class="fa fa-linkedin"></a></li>
+                    </ul>
+               </div>
+               
+          </div>
+     </div>
+</footer>
+
+<a href="#back-top" class="go-top"><i class="fa fa-angle-up"></i></a>
+
+
+<script src="lostandfound/js/jquery.js"></script>
+<script src="lostandfound/js/bootstrap.min.js"></script>
+<script src="lostandfound/js/jquery.parallax.js"></script>
+<script src="lostandfound/js/custom.js"></script>
+
+</body>
+</html>

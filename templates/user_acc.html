@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+  <script  src="{{url_for('static',filename='cookie.js')}}"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Lost and found</title>
+  <link rel="stylesheet" href="{{url_for('static',filename='lostandfound/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='lostandfound/css/font-awesome.min.css')}}">
+  <script src="{{url_for('static',filename='lostandfound/js/jquery.js')}}"></script>
+  <link rel="stylesheet" href="{{url_for('static',filename='lostandfound/css/style.css')}}">
+  <link href="https://fonts.googleapis.com/css?family=Lora|Merriweather:300,400" rel="stylesheet">
+  <link rel="stylesheet" href={{url_for('static',filename='modal.css')}}>
+<style type="text/css">
+      header {
+    margin: 0;
+    background: #000;
+    height: 65px;
+    padding: 1px;
+  }
+
+    article {
+        margin: 40px 30px;
+    }
+
+    h1 {
+        font-family: 'Open Sans Condensed', sans-serif;
+        letter-spacing: 1px;
+        font-size: 2.3em;
+        line-height: 44px;
+        text-transform: uppercase;
+        color: #fff;
+        font-weight: 900;
+        margin: 0;
+        padding: 10px 0 0 30px;
+        letter-spacing: 2px;
+    }
+
+    h2 { margin: 20px 0 10px 0;
+        font-weight: 900;
+    }
+
+    p {
+        margin: 20px 0 5px 0;
+    }
+
+
+   
+
+    table.vitamins {
+        margin: 20px 0 0 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+        background: #212121;
+        color: #fff;
+    }
+
+    table.vitamins th, table.vitamins td {
+        text-align: center;
+    }
+
+    table.vitamins thead {
+        line-height: 12px;
+        background: #2e63e7;
+        text-transform: uppercase;
+    }
+
+    table.vitamins thead th {
+        color: #fff;
+        padding: 10px;
+        letter-spacing: 1px;
+        vertical-align: bottom;
+    }
+
+    table.vitamins thead th:nth-child(1) {
+        width: 20%;
+        text-align: left;
+        padding-left: 20px;
+    }
+
+    table.vitamins thead th:nth-child(2) {
+        width: 30%;
+    }
+
+    table.vitamins thead th:nth-child(3) {
+        width: 35%;
+    }
+
+    table.vitamins thead th:nth-child(4) {
+        width: 15%;
+    }
+
+    table.vitamins tbody {
+        font-size: 1em;
+        line-height: 15px;
+    }
+
+    table.vitamins tbody tr {
+        border-top: 2px solid rgba(109, 176, 231, 0.8);
+        transition: background 0.6s, color 0.6s;
+    }
+
+    table.vitamins tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    table.vitamins tbody tr:hover {
+        color: #000;
+        background: rgba(255, 255, 255, 0.7);
+        font-weight: 900;
+    }
+
+    table.vitamins tbody td {
+        padding: 12px;
+    }
+
+    table.vitamins tbody tr:hover td:first-child {
+        background: rgba(0,0,0,0);
+        cursor: pointer;
+    }
+
+    table.vitamins tbody td:first-child {
+        text-align: left;
+        padding-left: 20px;
+        font-weight: 700;
+        background: rgba(109, 176, 231, 0.35);
+        transition: background 0.6s;
+        cursor: pointer;
+    }
+
+    table.vitamins tfoot {
+        font-size: 0.8em;
+    }
+
+    table.vitamins tfoot tr {
+        border-top: 2px solid #2e63e7;
+    }
+
+    table.vitamins tfoot td {
+        color: rgba(255,255,215,0.6);
+        text-align: left;
+        line-height: 15px;
+        padding: 15px 20px;
+    }
+
+
+  a:hover{
+     cursor: pointer; 
+  }
+  .tdimg{
+    width: 50px;
+  }
+</style>
+</head>
+<body>
+
+<div class="preloader">
+     <div class="sk-spinner sk-spinner-wordpress">
+          <span class="sk-inner-circle"></span>
+     </div>
+</div>
+
+
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+     <div class="container">
+
+          <div class="navbar-header">
+               <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+                    <span class="icon icon-bar"></span>
+               </button>
+               <a href="/homepage" class="navbar-brand">Lost and Found</a>
+          </div>
+          <div class="collapse navbar-collapse">
+               <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/homepage" class="fa fa-home">Home</a></li>
+                    <li><a onclick="logout();" class="fa fa-sign-out">Logout</a></li>
+                    <li class="active"><a href="/user_acc">Mylisting</a></li>
+                    <li><a href="/listing">Lostandfoundlisting</a></li>
+                    <li><a href="team.html" class="fa fa-group">team</a></li>
+                    <li><a href="contactus.html" class="fa fa-phone">Contact</a></li>
+               </ul>
+          </div>
+
+  </div>
+</div>
+
+
+
+
+<section id="home" class="main-contact parallax-section">
+     <div class="overlay"></div>
+     <div class="container">
+          <div class="row">
+
+               <div class="col-md-12 col-sm-12">
+                    <h1>My Listing</h1>
+               </div>
+
+          </div>
+     </div>
+</section>
+
+
+
+
+<section id="contact">
+     <div class="container">
+          <div class="row">
+
+               <div class="col-md-offset-1 col-md-10 col-sm-12">
+                <button onclick="window.location='/newlost'">Add a Lost object</button>
+                <button onclick="window.location='/newfound'">Add a Found object</button>
+                <p style="font-family: sans-serif;text-transform: uppercase;color: blue;">Here u can find the details of Items u entered.</p>
+                    <h2 style="align-items: center;text-transform: uppercase;justify-content: center;display: flex;"> Lost Items</h2>
+                    <section>
+                          <table class="vitamins">
+
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Description</th>
+                                    <th>Date and time of last seen</th>
+                                    <th>Location</th>
+                                    <th>Image</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lost"></tbody>
+                        </table>
+                   </section>
+                   <h2 style="align-items: center;text-transform: uppercase;justify-content: center;display: flex;"> Found Items</h2>
+                    <section>
+                          <table class="vitamins">
+
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Description</th>
+                                    <th>Date and time of found</th>
+                                    <th>Location</th>
+                                    <th>Image</th>
+                                    <th>Has Unique Feature??</th>
+                                </tr>
+                            </thead>
+                            <tbody id="found"></tbody>
+                        </table>
+                   </section>
+
+
+                   <p style="font-family: sans-serif;text-transform: uppercase;color: blue;">Here u can find any claims on your found objects</p>
+                    <h2 style="align-items: center;text-transform: uppercase;justify-content: center;display: flex;">Claims</h2>
+                    <section>
+                          <table class="vitamins">
+
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Description</th>
+                                    <th>Date and time of found</th>
+                                    <th>Location</th>
+                                    <th>Image</th>
+                                    <th>Person who claimed</th>
+                                    <th>Ph.#</th>
+                                    <th>Unique Feature he mentioned</th>
+                                    <th>Validate Claims</th>
+                                </tr>
+                            </thead>
+                            <tbody id="claims"></tbody>
+                        </table>
+                   </section>
+          
+           </div>
+</section>
+
+</script>
+<script type="text/javascript">
+    var config = {
+        apiKey: "AIzaSyBiX1xYfPUnPGy8VXzrAKqD2SUqBUKxVlo",
+        authDomain: "lostandfound-5d806.firebaseapp.com",
+        databaseURL: "https://lostandfound-5d806.firebaseio.com",
+        projectId: "lostandfound-5d806",
+        storageBucket: "lostandfound-5d806.appspot.com",
+        messagingSenderId: "638576658815"
+    };
+    firebase.initializeApp(config);
+    var email=getCookie('email');
+    var password=getCookie('password');
+    var user;
+    firebase.auth().signInWithEmailAndPassword(email,password).then(function(){
+        user=firebase.auth().currentUser.uid;
+        database=firebase.database();
+        var ref=database.ref('/lost').orderByChild("User").equalTo(user);
+        ref.once('value',function(snapshot) {
+            snapshot.forEach(function(childsnapshot) {
+                var userid=childsnapshot.child('/User').val();
+                database.ref('/users/'+userid).once('value',function(usersnapshot) {
+                  if(! childsnapshot.child('foundobject').exists())
+                  document.getElementById('lost').innerHTML+="<tr><td>"+childsnapshot.child('/Name').val()+"</td><td>"+childsnapshot.child('/Description').val()+"</td><td>"+childsnapshot.child('/Date').val()+"</td><td>"+childsnapshot.child('/Location').val()+"</td><td onclick='openimage(this);'><img class='tdimg' src='"+childsnapshot.child('/imgurl').val()+"'></td><td><a id='"+childsnapshot.key+"' onclick='foundlost(this);'>Click here if you found this object</a></td></tr>"
+                })
+            })
+        });
+        var ref=database.ref('/found').orderByChild("User").equalTo(user);
+        ref.once('value',function(snapshot) {
+            snapshot.forEach(function(childsnapshot) {
+                  if(! childsnapshot.child('lostobject').exists())
+                  document.getElementById('found').innerHTML+="<tr><td>"+childsnapshot.child('/Name').val()+"</td><td>"+childsnapshot.child('/Description').val()+"</td><td>"+childsnapshot.child('/Date').val()+"</td><td>"+childsnapshot.child('/Location').val()+"</td><td onclick='openimage(this);'><img class='tdimg' src='"+childsnapshot.child('/imgurl').val()+"'></td><td>"+childsnapshot.child('/unique').val()+"</td></tr>";
+                
+            })
+        })
+        var ref=database.ref('/found').orderByChild("User").equalTo(user);
+        ref.once('value',function(snapshot) {
+            snapshot.forEach(function(childsnapshot) {
+                  if(! childsnapshot.child('lostobject').exists())
+                  {
+                    childsnapshot.child('claims').forEach(function(ccsnapshot) {
+                      userid=ccsnapshot.key;
+                      database.ref('/users/'+userid).once('value',function(usersnapshot) {
+                        document.getElementById('claims').innerHTML+="<tr><td>"+childsnapshot.child('/Name').val()+"</td><td>"+childsnapshot.child('/Description').val()+"</td><td>"+childsnapshot.child('/Date').val()+"</td><td>"+childsnapshot.child('/Location').val()+"</td><td onclick='openimage(this);'><img class='tdimg' src='"+childsnapshot.child('/imgurl').val()+"'></td><td>"+usersnapshot.child('/Name').val()+"</td><td>"+usersnapshot.child('/Ph').val()+"</td><td>"+ccsnapshot.val()+"</td><td class='"+usersnapshot.key+"'><a class='"+childsnapshot.key+"' onclick='validateclaim(this);'>This is a valid claim</a></td></tr>";
+                      })
+                    })
+                  }
+                  
+                
+            })
+        })
+    }).catch(function(error) {
+           window.location.href="/homepage"
+    })
+    
+    function logout() {
+      firebase.auth().signOut().then(function() {
+        setCookie('email','');
+        setCookie('password','');
+        window.location.href="/homepage";
+      }).catch(function(error) {
+        alert(error.message);
+      });
+    }
+
+    function validateclaim(aele) {
+      foundobject=aele.className;
+      claimuser=aele.parentNode.className;
+      firebase.database().ref('/found/'+foundobject+'/lostobject').set(claimuser).then(function() {
+        alert('You just validated a claim');
+        document.location.reload();
+      });
+    }
+
+    function foundlost(aele) {
+      lostobject=aele.id;
+      firebase.database().ref('/lost/'+lostobject+'/foundobject').set('true').then(function() {
+        alert('You just entered that you found this object');
+        document.location.reload();
+      });
+    }
+
+    function openimage(tdele) {
+      document.getElementById('image').src=tdele.firstChild.src;
+      document.getElementById('showimagemodal').style.display='block';
+    }
+    window.onclick=function(event){
+      var modals=document.getElementsByClassName('modal');
+      for(var i=0; i<modals.length;i++)
+      {
+        if (event.target == modals[i] && modals[i].id!="dontClose")
+        {
+              modals[i].style.display = "none";
+        }
+      }
+      //update last activity
+    }
+</script>
+
+
+<footer>
+     <div class="container">
+          <div class="row">
+
+               <div class="col-md-5 col-md-offset-1 col-sm-6">
+                    <h3>Contact Detail</h3>
+                     <p>SIT, main road Tumkuru. </p>
+                     <p class="fa fa-phone">+91 8792247741</p></br>
+                     <p class="fa fa-phone">+91 8762171340</p>
+                     <p>lostandfound@gmail.com</p>
+               </div>
+
+               <div class="col-md-4 col-md-offset-1 col-sm-6">
+                    <h3>Talk to us</h3>
+                         <h3>Team Members</h3>
+                          <strong>Kavya Shree</strong>
+                          <p>kavyashree@gmail.com</p>
+                          <strong>Rakshitha N</strong>
+                          <p>rakshithan@gmail.com</p>
+               </div>
+
+               <div class="clearfix col-md-12 col-sm-12">
+                    <hr>
+               </div>
+
+               <div class="col-md-12 col-sm-12">
+                    <ul class="social-icon">
+                         <li><a href="#" class="fa fa-facebook"></a></li>
+                         <li><a href="#" class="fa fa-instagram"></a></li>
+                         <li><a href="#" class="fa fa-linkedin"></a></li>
+                    </ul>
+               </div>
+               
+          </div>
+     </div>
+</footer>
+<div id="showimagemodal" class="modal">
+  <span class="close" onclick="this.parentNode.style.display='none';">&times;</span>
+  <img id="image" class="modal-content">
+</div>
+
+<a href="#back-top" class="go-top"><i class="fa fa-angle-up"></i></a>
+
+<script src="{{url_for('static',filename='lostandfound/js/jquery.js')}}"></script>
+<script src="{{url_for('static',filename='lostandfound/js/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static',filename='lostandfound/js/jquery.parallax.js')}}"></script>
+<script src="{{url_for('static',filename='lostandfound/js/custom.js')}}"></script>
+
+</body>
+</html>

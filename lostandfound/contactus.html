@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Lost and found</title>
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="contact/css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="contact/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="contact/css/component.css" />
+		<link rel="stylesheet" type="text/css" href="contact/css/cs-select.css" />
+		<link rel="stylesheet" type="text/css" href="contact/css/cs-skin-boxes.css" />
+		<script src="contact/js/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="fs-form-wrap" id="fs-form-wrap">
+				<div class="fs-title" style="text-align: center;">
+					<p style="text-transform: uppercase;"><b>Lost and Found</b></p>
+					<p style="text-transform: uppercase;">A web portal forlost and found listing</p>
+				</div>
+				<form id="myform" class="fs-form fs-form-full" autocomplete="off">
+					<ol class="fs-fields">
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
+							<input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Ex:Dean Moriarty" required/>
+						</li>
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q2" data-info="We won't send you spam, we promise...">What's your email address?</label>
+							<input class="fs-anim-lower" id="q2" name="q2" type="email" placeholder="Ex:dean@road.us" required/>
+						</li>
+						
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q4">Message..</label>
+							<textarea class="fs-anim-lower" id="q4" name="q4" placeholder="Describe here"></textarea>
+						</li>
+					
+					</ol>
+					<button class="fs-submit" type="submit"><a href="#" style="color: black;">Submit </a></button>
+				</form>
+			</div>
+
+			
+
+		</div>
+		<script src="contact/js/classie.js"></script>
+		<script src="contact/js/selectFx.js"></script>
+		<script src="contact/js/fullscreenForm.js"></script>
+		<script>
+			(function() {
+				var formWrap = document.getElementById( 'fs-form-wrap' );
+
+				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+					new SelectFx( el, {
+						stickyPlaceholder: false,
+						onChange: function(val){
+							document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+						}
+					});
+				} );
+
+				new FForm( formWrap, {
+					onReview : function() {
+						classie.add( document.body, 'overview' );
+					}
+				} );
+			})();
+		</script>
+	</body>
+</html>

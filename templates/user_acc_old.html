@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>lost and found web portal</title>
+  <script  src="{{url_for('static',filename='cookie.js')}}"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>
+	<style type="text/css">
+	h1,h6{
+	text-align: center;
+}
+		.topbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topbar  li {
+  float: right;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+
+}
+.topbar li:hover {
+  background-color: green;
+}
+
+.topbar a {
+  display: block;
+  color: white;
+  text-align: center;
+
+  text-decoration: none;
+}
+
+.topbar a:hover {
+  background-color: green;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    margin-bottom: 100px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
+
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content input , .modal-content textarea, .modal-content select{
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+table th, table td{
+    text-align: left;
+    padding-top: 12px;
+    padding-left: 12px;
+    padding-bottom: 12px;
+}
+
+table tr{
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+	</style>
+</head>
+<body>
+<div ><ul class="topbar">
+  <li><a onclick="logout();">Logout</a></li>
+  <li><a>My listings</a></li>
+  <li ><a href="/listingspage">Lost and found listings</a></li>
+  <li><a class="Home" href="/homepage">Home</a></li>
+  
+  
+</ul>
+</div>
+<div>
+		<h1 id="greet">WELCOME <h1>
+		<h6>HERE YOU CAN FIND ALL THE LOST AND FOUND STUFF YOU HAVE ADDED</h6>
+</div>
+<button onclick="openlostform();">Add a Lost Object</button>
+<button onclick="openfoundform()">Add a Found object</button>
+<br>
+<table style="width: 49%; float: left;">
+  <thead>
+    <tr><th colspan="4" style="text-align: center;">Lost Items</th></tr>
+    <tr>
+      <th>Item</th>
+      <th>Description</th>
+      <th>Date and time of last seen</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody id="lost"></tbody>
+</table>
+<table style="width: 49%; float: right;">
+  <thead>
+    <tr><th colspan="4" style="text-align: center;">Found Items</th></tr>
+    <tr>
+      <th>Item</th>
+      <th>Description</th>
+      <th>Date and time of found</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody id="found"></tbody>
+</table>
+
+<div id="lostmodal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="this.parentNode.parentNode.style.display='none';">&times;</span>
+      <h1>Add Lost Item</h1>
+      <table>
+        <tbody>
+          <tr>
+            <th>Item Name</th>
+            <td><input type="text" id="lname"></td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td><textarea id="ldesc"></textarea>
+          </tr>
+          <tr>
+            <th>Last Seen Date</th>
+            <td><input type="date" id="ldate"></td>
+          </tr>
+          <tr>
+            <th>Last Seen Location</th>
+            <td><input type="text" id="lloc"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button onclick="savelost();">Save Changes</button>
+    </div>
+  </div>
+  <div id="foundmodal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="this.parentNode.parentNode.style.display='none';">&times;</span>
+      <h1>Add Found Item</h1>
+      <table>
+        <tbody>
+          <tr>
+            <th>Item Name</th>
+            <td><input type="text" id="fname"></td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td><textarea id="fdesc"></textarea>
+          </tr>
+          <tr>
+            <th>Found Date</th>
+            <td><input type="date" id="fdate"></td>
+          </tr>
+          <tr>
+            <th>Found Location</th>
+            <td><input type="text" id="floc"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button onclick="savefound();">Save Changes</button>
+    </div>
+  </div>    
+</body>
+<script type="text/javascript">
+  var config = {
+        apiKey: "AIzaSyBiX1xYfPUnPGy8VXzrAKqD2SUqBUKxVlo",
+        authDomain: "lostandfound-5d806.firebaseapp.com",
+        databaseURL: "https://lostandfound-5d806.firebaseio.com",
+        projectId: "lostandfound-5d806",
+        storageBucket: "lostandfound-5d806.appspot.com",
+        messagingSenderId: "638576658815"
+    };
+    firebase.initializeApp(config);
+    database=firebase.database();
+    var email=getCookie('email');
+    var password=getCookie('password');
+    var user;
+    firebase.auth().signInWithEmailAndPassword(email,password).then(function(){
+        user=firebase.auth().currentUser.uid;
+        document.getElementById('greet').innerHTML+=email;
+    database=firebase.database();
+    var ref=database.ref('/lost').orderByChild("User").equalTo(user);
+    ref.once('value',function(snapshot) {
+        snapshot.forEach(function(childsnapshot) {
+            var userid=childsnapshot.child('/User').val();
+            database.ref('/users/'+userid).once('value',function(usersnapshot) {
+              document.getElementById('lost').innerHTML+="<tr><td>"+childsnapshot.child('/Name').val()+"</td><td>"+childsnapshot.child('/Description').val()+"</td><td>"+childsnapshot.child('/Date').val()+"</td><td>"+childsnapshot.child('/Location').val()+"</td></tr>"
+            })
+        })
+    });
+    var ref=database.ref('/found').orderByChild("User").equalTo(user);
+    ref.once('value',function(snapshot) {
+        snapshot.forEach(function(childsnapshot) {
+            var userid=childsnapshot.child('/User').val();
+            database.ref('/users/'+userid).once('value',function(usersnapshot) {
+              document.getElementById('found').innerHTML+="<tr><td>"+childsnapshot.child('/Name').val()+"</td><td>"+childsnapshot.child('/Description').val()+"</td><td>"+childsnapshot.child('/Date').val()+"</td><td>"+childsnapshot.child('/Location').val()+"</td></tr>"
+            })
+            
+        })
+    })
+    }).catch(function(error) {
+           window.location.href="/homepage"
+    })
+
+    
+    function openlostform()
+    {
+      document.getElementById('lostmodal').style.display="block";
+    }
+    function openfoundform()
+    {
+      document.getElementById('foundmodal').style.display="block";
+    }
+    function savelost() 
+    {
+      var name=document.getElementById('lname').value;
+      var desc=document.getElementById('ldesc').value;
+      var date=document.getElementById('ldate').value;
+      var loc=document.getElementById('lloc').value;
+      var user=firebase.auth().currentUser.uid;
+      var ref = firebase.database().ref('/lost');
+      ref.push({
+        'Name':name,
+        'Description':desc,
+        'Date':date,
+        'Location':loc,
+        'User':user
+      }).then(function() {
+        alert('Lost object saved successfully');
+        document.getElementById('lostmodal').style.display="none";
+        document.getElementById('lname').value="";
+        document.getElementById('ldesc').value="";
+        document.getElementById('ldate').value="";
+        document.getElementById('lloc').value="";
+      });
+    }
+
+    function savefound() 
+    {
+      var name=document.getElementById('fname').value;
+      var desc=document.getElementById('fdesc').value;
+      var date=document.getElementById('fdate').value;
+      var loc=document.getElementById('floc').value;
+      var user=firebase.auth().currentUser.uid;
+      var ref = firebase.database().ref('/found');
+      ref.push({
+        'Name':name,
+        'Description':desc,
+        'Date':date,
+        'Location':loc,
+        'User':user
+      }).then(function() {
+        alert('Found object saved successfully');
+        document.getElementById('foundmodal').style.display="none";
+        document.getElementById('fname').value="";
+        document.getElementById('fdesc').value="";
+        document.getElementById('fdate').value="";
+        document.getElementById('floc').value="";
+      });
+    }
+
+    function logout() {
+      firebase.auth().signOut().then(function() {
+        setCookie('email','');
+        setCookie('password','');
+        window.location.href="/homepage";
+      }).catch(function(error) {
+        alert(error.message);
+      });
+    }
+</script>
+</html>
